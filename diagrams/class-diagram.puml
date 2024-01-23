@@ -1,0 +1,19 @@
+@startuml
+
+title ServerManager class Diagram
+
+!define RECTANGLE class
+
+RECTANGLE ServerManager {
+    +add_node(node: str)
+    +remove_node(node: str)
+    +get_node(key: str): str
+    -_hash(key: str): int
+}
+
+ServerManager : -replicas: int
+ServerManager : -ring: Map[int, str]
+ServerManager : -sorted_keys: List[int]
+
+note right of ServerManager : Initialization\n- Set replicas\n- Initialize ring and sorted_keys\n- Add nodes if provided
+@enduml

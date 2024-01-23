@@ -188,3 +188,4 @@ fabric.properties
 
 /clear_resources.sh
 .DS_Store
+/plantuml.jar

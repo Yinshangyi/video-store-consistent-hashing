@@ -1,0 +1,44 @@
+@startuml
+
+title Workflows for Add Node, Remove Node and Get Node
+
+partition "Add Node" {
+    start
+
+    :For each replica;
+    partition "Replica Loop" {
+        :Create a virtual node name;
+        :Calculate the hash of this virtual node name;
+        :Add this hash and the node to the ring dictionary;
+        :Insert the hash in the sorted keys list;
+    }
+
+    stop
+}
+
+partition "Remove Node" {
+     start
+    :For each replica;
+    partition "Replica Loop" {
+        :Create a virtual node name;
+        :Calculate the hash of this virtual node name;
+        :Remove this hash and its corresponding node from\n the ring dictionary;
+        :Remove the hash from the sorted keys list;
+    }
+    stop
+}
+
+partition "Get Node" {
+     start
+    :For each replica;
+    partition "Replica Loop" {
+        :Calculate the hash of the given key;
+        :Find the closest hash in the sorted keys list that is\ngreater than or equal to this hash.;
+        :Return the node associated with this hash\nfrom the ring dictionary.;
+    }
+    stop
+}
+
+
+
+@enduml
