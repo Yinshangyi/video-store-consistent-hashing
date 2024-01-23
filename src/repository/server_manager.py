@@ -4,8 +4,8 @@ from typing import Dict, List
 
 
 class ServerManager:
-    def __init__(self, nodes=None, replicas=5):
-        self.replicas = replicas
+    def __init__(self, nodes=None, replicas: int=5):
+        self.replicas: int = replicas
 
         # Dictionary representing the circles
         self.ring: Dict[int, str] = {}
@@ -17,14 +17,14 @@ class ServerManager:
             for node in nodes:
                 self.add_node(node)
 
-    def add_node(self, node):
+    def add_node(self, node: str):
         for i in range(self.replicas):
             virtual_node_name = f"{node}:{i}"
             key = self._hash(virtual_node_name)
             self.ring[key] = node
             bisect.insort(self.sorted_keys, key)
 
-    def remove_node(self, node):
+    def remove_node(self, node: str):
         for i in range(self.replicas):
             virtual_node_name = f"{node}:{i}"
             key = self._hash(virtual_node_name)
@@ -36,5 +36,5 @@ class ServerManager:
         idx = bisect.bisect(self.sorted_keys, hash_val) % len(self.sorted_keys)
         return self.ring[self.sorted_keys[idx]]
 
-    def _hash(self, key):
+    def _hash(self, key: str) -> int:
         return int(hashlib.md5(key.encode()).hexdigest(), 16)
