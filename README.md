@@ -23,7 +23,7 @@ is re-mapped, significantly reducing the overhead compared to traditional hashin
 
 Consistent Hashing is often conceptualized and represented by the following conceptual circle:
 
-<img width="80%" src="diagrams/consistent-hashing-circle.png">
+<img width="60%" src="diagrams/consistent-hashing-circle.png">
 
 - Each node in the system (server) is assigned a position on this ring through hashing its identifier.
 - Multiple nodes can refer to one single server (they are called virtual nodes) to have a more balanced distribution 
