@@ -1,15 +1,17 @@
 # Distributed Video Storage System API
 
 ## Introduction
-This project provides an API for administering a distributed storage system. It's designed to manage and interact with a distributed environment where data is stored and retrieved efficiently. The system is primarily focused on video data management.
+This project provides an API for administering a distributed storage system.
+It should be able to provide endpoints to add & remove nodes/servers with minimum impact and shuffling between nodes.  
+Videos can be added and retrieved using this API as well.  
+The system is primarily focused on video data management.
 
 ## Architecture
 
 ### Persistence Layer
+
 #### VideoRepository Class 
-This class serves as the in-memory storage component, implemented using a Python dictionary. It's designed for 
-simplicity and quick access. However, the implementation can be extended or modified to connect to actual storage 
-servers for a more persistent and robust storage solution.
+This class serves as the in-memory storage component, implemented using a Python dictionary. 
 
 #### Server Manager
 **Consistent Hashing**  
@@ -28,7 +30,7 @@ Consistent Hashing is often conceptualized and represented by the following conc
 - Each node in the system (server) is assigned a position on this ring through hashing its identifier.
 - Multiple nodes can refer to one single server (they are called virtual nodes) to have a more balanced distribution 
 of data
-- For each new data, it is also hashed to a position on the ring.   
+- For each new data, a hash code is computed to be positioned on the ring.   
 The data is then stored on the node that is closest in the clockwise direction.
 of data across nodes
 
@@ -36,15 +38,17 @@ of data across nodes
 The implementation of this algorithm can be found in the [ServerManager](https://github.com/Yinshangyi/video-store-consistent-hashing/blob/main/src/repository/server_manager.py) class.
 <img src="diagrams/class-diagram.svg" width="50%">
 
-The circle is represented by a Python Dictionary (Dict[int, str]). It contains all the virtual nodes.
+The circle is represented by a Python Dictionary (Dict[int, str]). It contains all the virtual nodes.  
 A sorted array contained all the hashes and keep them that order.  
-It is necessary to find the first node in the circle greater or equal than the hash of the data we want to store.  
+The sorted array is necessary to find the first node in the circle greater or equal than the hash of the data we want 
+to store.  
 
 <img src="diagrams/workflow.svg" width="50%">
 
 ### API Layers
 - **Web/Controller Layer**  
-This layer handles HTTP requests and responses, providing the interface through which users interact with the storage system.
+This layer handles HTTP requests and responses, providing the interface through which users interact with the storage 
+- system.
 
 
 - **Service Layer**  
@@ -52,7 +56,7 @@ It encapsulates the business logic of the application, interacting with the pers
 
 
 - **Repository Layer**  
-This layer is responsible for data storage and retrieval, abstracted in the `VideoRepository` class.
+This layer is responsible for data storage and retrieval.
 
 ## Testing
 **Unit Tests**  
@@ -69,7 +73,7 @@ docker run -p 5000:5000 --name <CONTAINER_NAME> <IMAGE_NAME>
 
 A script is also provided to build the Docker image if it doesn't exist yet and to run the container:
 ```bash
-./run_app.sh
+./run-app.sh
 ```
 
 ### Demo 
